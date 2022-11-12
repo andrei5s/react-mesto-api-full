@@ -1,0 +1,18 @@
+.element__like {
+    margin-top: 23px;
+    width: 26px;
+    height: 19px;
+    background: url(../../../images/Vector2.svg);
+    background-repeat: no-repeat;
+    font-size: 0;
+    border: none;
+    cursor: pointer;
+}
+
+.element__like:hover {
+    opacity: 0.5;
+}
+
+.element__like:focus {
+    outline: none;
+}

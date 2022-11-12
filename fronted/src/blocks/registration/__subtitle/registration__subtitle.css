@@ -1,0 +1,18 @@
+.registration__subtitle {
+    width: 358px;
+    margin: 15px auto 80px auto;
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #ffffff;
+}
+
+@media screen and (max-width: 767px) {
+    .registration__subtitle {
+        width: 260px;
+        margin: 20px auto 40px auto;
+    }
+}

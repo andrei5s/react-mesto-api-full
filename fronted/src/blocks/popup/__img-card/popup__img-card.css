@@ -1,0 +1,8 @@
+.popup__img-card {
+    object-fit: contain;
+    object-position: center;
+    max-width: 75vw;
+    max-height: 75vh;
+    margin-left: auto;
+    margin-right: auto;
+}

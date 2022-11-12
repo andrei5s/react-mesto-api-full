@@ -1,0 +1,17 @@
+.error {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    color: #ff0000;
+    margin-top: -8px;
+    margin-left: 36px;
+    min-height: 30px;
+}
+
+@media screen and (max-width: 767px) {
+    .error {
+        margin-left: 0;
+    }
+}

@@ -1,0 +1,27 @@
+.registration__input {
+    margin: 30px auto 13px auto;
+    width: 358px;
+    border-bottom: 2px solid #cccccc;
+    background-color: black;
+    width: 358px;
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    outline: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    color: #cccccc;
+}
+
+@media screen and (max-width: 767px) {
+    .registration__input {
+        width: 260px;
+    }
+}
+
+.popup__input:invalid {
+    border-bottom: 1px solid red;
+}

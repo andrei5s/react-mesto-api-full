@@ -1,0 +1,15 @@
+.registration__info-input {
+    margin: 20px 0 0 0;
+    padding: 0;
+    width: 358px;
+    display: flex;
+    flex-direction: column;
+    border: none;
+}
+
+@media screen and (max-width: 767px) {
+    .registration__info-input {
+        margin-top: 10px;
+        width: 260px;
+    }
+}

@@ -1,0 +1,9 @@
+    .header__info-for-big {
+        margin-top: 51px;
+    }
+    
+    @media (max-width: 767px) {
+        .header__info-for-big {
+            display: none;
+        }
+    }

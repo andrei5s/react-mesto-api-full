@@ -1,0 +1,21 @@
+.header__info-menu {
+    margin: auto;
+    width: 880px;
+    padding-bottom: 41px;
+    border-bottom: 1px solid rgba(84, 84, 84, 0.7);
+    display: flex;
+    justify-content: space-between;
+}
+
+@media screen and (max-width: 1279px) {
+    .header__info-menu {
+        width: 69%;
+    }
+}
+
+@media screen and (max-width: 350px) {
+    .header__info-menu {
+        width: 100%;
+        padding-bottom: 31.6px;
+    }
+}

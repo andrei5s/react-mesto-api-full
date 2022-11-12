@@ -1,0 +1,28 @@
+.registration__button {
+    margin: 216px auto 0 auto;
+    width: 358px;
+    height: 50px;
+    background: #FFFFFF;
+    border-radius: 2px;
+    font-family: Inter, Arial, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    color: #000000;
+    cursor: pointer;
+}
+
+.registration__button:hover {
+    opacity: 0.8;
+}
+
+@media screen and (max-width: 767px) {
+    .registration__button {
+        width: 260px;
+        margin-top: 173px;
+        font-size: 16px;
+        line-height: 19px;
+    }
+}
