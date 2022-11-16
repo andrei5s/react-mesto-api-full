@@ -22,8 +22,8 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 });
 
 const allowedCors = [
-  'https://api.project.andrei5s.nomoredomains.icu',
-  'http://api.project.andrei5s.nomoredomains.icu',
+  'https://project.andrei5s.nomoredomains.icu',
+  'http://project.andrei5s.nomoredomains.icu',
   'localhost:3000',
 ];
 
