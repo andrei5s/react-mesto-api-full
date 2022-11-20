@@ -44,7 +44,7 @@ export const checkToken = (token) => {
     return reqest({
         url: '/users/me',
         method: 'GET',
-        token,
+        token,       
     });
 
 };

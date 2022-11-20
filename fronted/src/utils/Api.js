@@ -1,8 +1,7 @@
 class Api {
     constructor({ baseUrl, headers }) {
-        //this._headers = headers;
+        this._headers = headers;
         this._baseUrl = baseUrl;
-        this._token = headers['authorization'];
     }
 
     _getResponseData(res) {
@@ -14,20 +13,18 @@ class Api {
 
     getProfile() {
         return fetch(`${this._baseUrl}/users/me`, {
-                //headers: this._headers
                 headers: {
-                    authorization: this._token,
-                  },
+                    authorization: `Bearer ${localStorage.getItem('token')}`, ...this._headers,
+                },
             })
             .then(this._getResponseData)
     }
 
     getInitialCards() {
         return fetch(`${this._baseUrl}/cards`, {
-                //headers: this._headers
                 headers: {
-                    authorization: this._token,
-                  },
+                    authorization: `Bearer ${localStorage.getItem('token')}`, ...this._headers,
+                },
             })
             .then(this._getResponseData)
     }
@@ -35,11 +32,9 @@ class Api {
     editProfile({ name, about }) {
         return fetch(`${this._baseUrl}/users/me`, {
                 method: "PATCH",
-                //headers: this._headers,
                 headers: {
-                    authorization: this._token,
-                    'Content-Type': 'application/json'
-                  },
+                    authorization: `Bearer ${localStorage.getItem('token')}`, ...this._headers,
+                },
                 body: JSON.stringify({
                     name: name,
                     about: about
@@ -52,11 +47,9 @@ class Api {
     addCard({ name, link }) {
         return fetch(`${this._baseUrl}/cards`, {
                 method: "POST",
-                //headers: this._headers,
                 headers: {
-                    authorization: this._token,
-                    'Content-Type': 'application/json'
-                  },
+                    authorization: `Bearer ${localStorage.getItem('token')}`, ...this._headers,
+                },
                 body: JSON.stringify({
                     name: name,
                     link: link
@@ -65,40 +58,22 @@ class Api {
             .then(this._getResponseData)
     }
 
-    deleteCard(id) {
-        return fetch(`${this._baseUrl}/cards/${id}`, {
+    deleteCard(cardId) {
+        return fetch(`${this._baseUrl}/cards/${cardId}`, {
                 method: "DELETE",
-                //headers: this._headers
                 headers: {
-                    authorization: this._token,
-                  },
+                    authorization: `Bearer ${localStorage.getItem('token')}`, ...this._headers,
+                },
             })
             .then(this._getResponseData)
     }
 
-    deleteLike(id) {
-        return fetch(`${this._baseUrl}/cards/${id}/likes`, {
-                method: "DELETE",
-                headers: this._headers
-            })
-            .then(this._getResponseData)
-    }
-
-    changeLikeCardStatus(id, isLiked) {
-        return fetch(`${this._baseUrl}/cards/${id}/likes`, {
+    changeLikeCardStatus(cardId, isLiked) {
+        return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
                 method: isLiked ? 'DELETE' : 'PUT',
-                //headers: this._headers
                 headers: {
-                    authorization: this._token,
-                  },
-            })
-            .then(this._getResponseData)
-    }
-
-    addLike(id) {
-        return fetch(`${this._baseUrl}/cards/${id}/likes`, {
-                method: "PUT",
-                headers: this._headers
+                    authorization: `Bearer ${localStorage.getItem('token')}`, ...this._headers,
+                },
             })
             .then(this._getResponseData)
     }
@@ -106,11 +81,9 @@ class Api {
     setAvatar(inputValues) {
         return fetch(`${this._baseUrl}/users/me/avatar`, {
                 method: "PATCH",
-                //headers: this._headers,
                 headers: {
-                    authorization: this._token,
-                    'Content-Type': 'application/json'
-                  },
+                    authorization: `Bearer ${localStorage.getItem('token')}`, ...this._headers,
+                },
                 body: JSON.stringify({
                     avatar: inputValues['avatar']
                 })
