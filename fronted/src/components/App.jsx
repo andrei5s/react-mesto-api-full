@@ -47,6 +47,8 @@ function App() {
     Promise.all([api.getProfile(), api.getInitialCards()])
       .then(([currentUserData, cards]) => {
         setCurrentUser(currentUserData);
+        setLoggedIn(true);
+        setEmail(currentUserData.email);
         setCards(cards);
         setLoggedIn(true);
       })
@@ -114,7 +116,6 @@ function App() {
 
   React.useEffect(() => {
     setIsLoading(true);
-
     if (loggedIn)
       api
         .getProfile()
@@ -188,7 +189,7 @@ function App() {
       }
     };
     tokenCheck();
-  }, []);
+  }, [history]);
 
   const handleLogin = (email, password) => {
     return auth
@@ -216,7 +217,6 @@ function App() {
     return auth
       .register(email, password)
       .then((res) => {
-        console.log(res);
         setInfoToolTipPopupOpen(true);
         setIsSuccess(true);
         history.push("/sign-in");
@@ -238,7 +238,7 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="body">
         <div className="page">
-          <Header email={email} onSignOut={handleSignOut} />
+          <Header onSignOut={handleSignOut} email={email} />
           <Switch>
             <ProtectedRoute
               exact

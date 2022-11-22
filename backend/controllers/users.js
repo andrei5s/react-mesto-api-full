@@ -1,3 +1,5 @@
+const { NODE_ENV, JWT_SECRET } = process.env;
+
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
@@ -16,13 +18,7 @@ const createUser = (req, res, next) => {
     about,
     avatar,
   } = req.body;
-  User.findOne({ email })
-    .then((user) => {
-      if (user) {
-        throw new ExistError('Такой пользователь уже существует!');
-      }
-      return bcrypt.hash(password, 10);
-    })
+  return bcrypt.hash(password, 10)
     .then((hash) => User.create({
       email,
       password: hash,
@@ -38,10 +34,13 @@ const createUser = (req, res, next) => {
         about: user.about,
         avatar: user.avatar,
       }))
-  // eslint-disable-next-line consistent-return
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
-        return next(new BadRequestError('Ошибка валидации данных'));
+        next(new BadRequestError('Ошибка валидации данных'));
+        return;
+      }
+      if (err.code === 11000) {
+        throw new ExistError('Такой пользователь уже существует!');
       }
       next(err);
     });
@@ -53,7 +52,7 @@ const login = (req, res, next) => {
   return User.findUserByCredentials(email, password)
     .then((user) => {
       res.send({
-        token: jwt.sign({ _id: user._id }, 'super-strong-secret', { expiresIn: '7d' }),
+        token: jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' }),
       });
     })
     .catch(next);
@@ -77,10 +76,10 @@ const getUserById = (req, res, next) => {
       }
       res.status(STATUS_OK).send(user);
     })
-  // eslint-disable-next-line consistent-return
     .catch((err) => {
       if (err instanceof mongoose.Error.CastError) {
-        return next(new BadRequestError('Не корректный _id'));
+        next(new BadRequestError('Не корректный _id'));
+        return;
       }
       next(err);
     });
@@ -94,10 +93,10 @@ const getCurrentUser = (req, res, next) => {
       }
       res.status(STATUS_OK).send(user);
     })
-  // eslint-disable-next-line consistent-return
     .catch((err) => {
       if (err instanceof mongoose.Error.CastError) {
-        return next(new BadRequestError('Не корректный _id'));
+        next(new BadRequestError('Не корректный _id'));
+        return;
       }
       next(err);
     });
@@ -113,13 +112,14 @@ const updateProfile = (req, res, next) => {
       }
       res.status(STATUS_OK).send(user);
     })
-  // eslint-disable-next-line consistent-return
     .catch((err) => {
       if (err instanceof mongoose.Error.CastError) {
-        return next(new BadRequestError('Не корректный _id'));
+        next(new BadRequestError('Не корректный _id'));
+        return;
       }
       if (err instanceof mongoose.Error.ValidationError) {
-        return next(new BadRequestError('Не корректный _id'));
+        next(new BadRequestError('Ошибка валидации данных'));
+        return;
       }
       next(err);
     });
@@ -127,7 +127,7 @@ const updateProfile = (req, res, next) => {
 
 const updateAvatar = (req, res, next) => {
   const { avatar } = req.body;
-  User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true, upsert: true })
+  User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
   // eslint-disable-next-line consistent-return
     .then((user) => {
       if (!user) {
@@ -138,7 +138,8 @@ const updateAvatar = (req, res, next) => {
   // eslint-disable-next-line consistent-return
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
-        return next(new BadRequestError('Не корректный _id'));
+        next(new BadRequestError('Ошибка валидации данных'));
+        return;
       }
       next(err);
     });

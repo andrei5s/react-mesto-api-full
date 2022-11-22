@@ -13,17 +13,17 @@ module.exports.createCard = (req, res, next) => {
   const owner = req.user._id;
   Card.create({ name, link, owner })
     .then((user) => res.status(STATUS_CREATED).send({ data: user }))
-    // eslint-disable-next-line consistent-return
     .catch((err) => {
       if (err.name.includes('ValidationError')) {
-        return next(new BadRequestError('Ошибка валидации данных'));
+        next(new BadRequestError('Ошибка валидации данных'));
+        return;
       }
       next(err);
     });
 };
 
 module.exports.getCards = (req, res, next) => {
-  Card.find({})
+  Card.find({}).sort({ createdAt: -1 })
     .then((data) => res.status(STATUS_OK).send(data))
     .catch(next);
 };
@@ -37,13 +37,13 @@ module.exports.deleteCard = (req, res, next) => {
       if (JSON.stringify(card.owner) !== JSON.stringify(req.user._id)) {
         throw new ForbiddenError('Невозможно удалить данную карточку');
       }
-      card.remove();
-      res.status(STATUS_OK).send({ data: card });
+      return card.remove()
+        .then(() => res.status(STATUS_OK).send({ data: card }));
     })
-    // eslint-disable-next-line consistent-return
     .catch((err) => {
       if (err.name === 'CastError') {
-        return next(new BadRequestError('Ошибка валидации данных'));
+        next(new BadRequestError('Ошибка валидации данных'));
+        return;
       }
       next(err);
     });
@@ -57,10 +57,10 @@ module.exports.likeCard = (req, res, next) => {
       }
       res.status(STATUS_OK).send({ data: card });
     })
-    // eslint-disable-next-line consistent-return
     .catch((err) => {
       if (err.name === 'CastError') {
-        return next(new BadRequestError('Ошибка валидации данных'));
+        next(new BadRequestError('Ошибка валидации данных'));
+        return;
       }
       next(err);
     });
@@ -74,7 +74,7 @@ module.exports.dislikeCard = (req, res, next) => {
       }
       res.status(STATUS_OK).send({ data: card });
     })
-    // eslint-disable-next-line consistent-return
+  // eslint-disable-next-line consistent-return
     .catch((err) => {
       if (err.name === 'CastError') {
         return next(new BadRequestError('Ошибка валидации данных'));
