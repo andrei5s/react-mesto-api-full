@@ -41,15 +41,14 @@ function App() {
     isAddPlacePopupOpen ||
     selectedCard;
 
-  React.useEffect(() => {
+    React.useEffect(() => {
     setIsLoading(true);
 
     Promise.all([api.getProfile(), api.getInitialCards()])
       .then(([currentUserData, cards]) => {
         setCurrentUser(currentUserData);
-        setLoggedIn(true);
         setEmail(currentUserData.email);
-        setCards(cards);
+        setCards(cards.reverse());
         setLoggedIn(true);
       })
       .catch((err) => console.log(err))
@@ -211,7 +210,7 @@ function App() {
   React.useEffect(() => {
     if (!loggedIn) return;
     history.push("/");
-  }, [loggedIn]);
+  }, [loggedIn, history]);
 
   const handleRegister = (email, password) => {
     return auth

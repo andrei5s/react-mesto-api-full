@@ -23,7 +23,7 @@ module.exports.createCard = (req, res, next) => {
 };
 
 module.exports.getCards = (req, res, next) => {
-  Card.find({}).sort({ createdAt: -1 })
+  Card.find({})
     .then((data) => res.status(STATUS_OK).send(data))
     .catch(next);
 };

@@ -11,19 +11,14 @@ const { createUser, login } = require('./controllers/users');
 const { checkUser, checkLogin } = require('./validation/validation');
 const { ERROR_SERVER } = require('./utils/constants');
 const NotFoundError = require('./errors/not-found-err');
+const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const corsReqest = require('./middlewares/cors');
 
 const app = express();
 app.use(cors());
 
-mongoose.connect('mongodb://localhost:27017/mestodb', {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
-  useUnifiedTopology: true,
-  autoIndex: true,
-});
+mongoose.connect('mongodb://localhost:27017/mestodb');
 
 // для собирания JSON-формата
 app.use(bodyParser.json());
@@ -49,7 +44,7 @@ app.use(routes);
 
 app.use(express.json());
 
-app.use('*', (req, res, next) => {
+app.use('*', auth, (req, res, next) => {
   next(new NotFoundError('Указанный путь не существует'));
 });
 

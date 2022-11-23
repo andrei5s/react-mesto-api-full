@@ -40,7 +40,8 @@ const createUser = (req, res, next) => {
         return;
       }
       if (err.code === 11000) {
-        throw new ExistError('Такой пользователь уже существует!');
+        next(new ExistError('Такой пользователь уже существует!'));
+        return;
       }
       next(err);
     });
