@@ -136,7 +136,6 @@ const updateAvatar = (req, res, next) => {
       }
       res.send({ data: user });
     })
-  // eslint-disable-next-line consistent-return
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
         next(new BadRequestError('Ошибка валидации данных'));

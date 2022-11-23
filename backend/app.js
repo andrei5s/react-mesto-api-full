@@ -25,7 +25,6 @@ app.use(bodyParser.json());
 // для приёма веб-страниц внутри POST-запроса
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// подключаем логгер запросов
 app.use(requestLogger);
 
 app.use(cors(corsReqest));
@@ -44,6 +43,7 @@ app.use(routes);
 
 app.use(express.json());
 
+// eslint-disable-next-line no-undef
 app.use('*', auth, (req, res, next) => {
   next(new NotFoundError('Указанный путь не существует'));
 });

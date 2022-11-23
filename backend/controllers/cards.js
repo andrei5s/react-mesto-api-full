@@ -74,10 +74,10 @@ module.exports.dislikeCard = (req, res, next) => {
       }
       res.status(STATUS_OK).send({ data: card });
     })
-  // eslint-disable-next-line consistent-return
     .catch((err) => {
       if (err.name === 'CastError') {
-        return next(new BadRequestError('Ошибка валидации данных'));
+        next(new BadRequestError('Ошибка валидации данных'));
+        return;
       }
       next(err);
     });
